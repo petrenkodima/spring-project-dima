@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+</head>
+<body class="text-center">
+<div class="p-2 p-md-3 border rounded-3 bg-light">
+    <div id="auth" style="display: block">
+        <main class="form-signin">
+            <form>
+                <h1 class="h3 mb-3 fw-normal">Пожалуйста авторизуйтесь</h1>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Логин">
+                    <label for="floatingInput">Логин</label><br>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль">
+                    <label for="floatingPassword">Пароль</label><br>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit"
+                        onclick="on_auth_click($('#floatingInput').val(), $('#floatingPassword').val())">Sign in
+                </button>
+                <p class="mt-5 mb-3 text-muted">© 2022</p>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div id="user" style="display: none">
+        <section class="py-5 text-center container">
+            <div class="text-muted py-5 px-3 py-2 bg-dark text-white text-center">>
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <span class="text-primary"><h1><b>Доступное для пользователей c ролями ADMIN & USER</b></h1></span>
+                    <div class="row py-lg-5">
+                        <div class="col-lg-6 col-md-8 mx-auto">
+                            <form>
+                                <h3>2.1 Получить пользователя по логину</h3>
+                                <label for="userLogin"><b></h4>Login</b></h4></label><input type="text" id="userLogin">
+                                <a onclick="getUserByLogin($('#userLogin').val())"><b></h4>Получить</b></h4></a>
+                                <div class="bg-light border rounded-3">
+                                    <div id="getUserBlock" style="display: none;">
+
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                            <form>
+                                <h3>2.2 Получить всех пользователей</h3>
+                                <a onclick="getUserAll()"><b></h4>Получить</b></h4></a>
+                                <div class="bg-light border rounded-3">
+                                    <div id="getUserAllBlock" style="display: none;">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <br>
+        <br>
+        <div class="text-muted py-5 px-3 py-2 bg-dark text-white text-center">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <span class="text-primary"><h1><b>Доступное для пользователей с ролью ADMIN</b></h1></span>
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <form>
+                            <h3>2.3 Получить всех пользователей по определенной роли</h3>
+                            <label for="userRole"><b></h4>Role</b></h4></label><input type="text" id="userRole">
+                            <a onclick="getUserByRole($('#userRole').val())"><b></h4>Получить</b></h4></a>
+                            <div class="bg-light border rounded-3">
+                                <div id="getUserByRoleBlock" style="display: none;">
+
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <form>
+                            <h3>2.4 Получить всех пользователей по Id</h3>
+                            <label for="userId"><b></h4>Id</b></h4></label><input type="text" id="userId">
+                            <a onclick="getUserById($('#userId').val())"><b></h4>Получить</b></h4></a>
+                            <div class="bg-light border rounded-3">
+                            </div>
+                            <div id="getUserByIdBlock" style="display: none;">
+
+                            </div>
+                        </form>
+                        <br>
+                        <form>
+                            <h3>2.5 Создать пользователя</h3>
+                            <label for="newUserLogin"><b></h4>Login</b></h4></label><input type="text"
+                                                                                           id="newUserLogin">
+                            <label for="newUserPass"><b></h4>Password</b></h4></label><input type="text"
+                                                                                             id="newUserPass">
+                            <a onclick="saveUser($('#newUserLogin').val(), $('#newUserPass').val())"><b></h4>
+                                Создать</b></h4></a>
+                            <div class="bg-light border rounded-3">
+                                <div id="newUserBlock" style="display: none;">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

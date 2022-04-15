@@ -1,0 +1,88 @@
+version: "3.7"
+services:
+  postgres_spd:
+    container_name: postgres_spd
+    image: postgres:13
+    restart: unless-stopped
+    command: postgres -c 'max_connections=200'
+    stdin_open: true
+    tty: true
+    environment:
+      POSTGRES_PASSWORD: rootroot
+      POSTGRES_USER: rootroot
+      POSTGRES_DB: postgres
+    volumes:
+      - ./database/db-data:/var/lib/postgresql/data/
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  eureka:
+    container_name: eureka
+    image: eureka:jdk17
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./eureka/Dockerfile
+    ports:
+      - "8761:8761"
+    depends_on:
+      - postgres_spd
+
+  gateway:
+    container_name: gateway
+    image: gateway:jdk17
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile
+    environment:
+      PORT: 8088
+      EUREKA_HOST: eureka
+      EUREKA_PORT: 8761
+    ports:
+      - "8088:8088"
+    depends_on:
+      - eureka
+
+  auth:
+    container_name: auth
+    image: auth:jdk17
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./auth/Dockerfile
+    environment:
+      PORT: 8089
+      DB_HOST: postgres_spd
+      DB_PORT: 5432
+      EUREKA_HOST: eureka
+      EUREKA_PORT: 8761
+    ports:
+      - "8089:8089"
+    depends_on:
+      - eureka
+      - postgres_spd
+
+  user:
+    container_name: user
+    image: user:jdk17
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    environment:
+      PORT: 8090
+      DB_HOST: postgres_spd
+      DB_PORT: 5432
+      EUREKA_HOST: eureka
+      EUREKA_PORT: 8761
+    ports:
+      - "8090:8090"
+    depends_on:
+      - eureka
+      - postgres_spd
+
+networks:
+  default:
+    name: "petrenkodima"
