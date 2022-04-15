@@ -1,7 +1,7 @@
 $(function() {
     getAuth();
 })
-var users = [];
+
 function getAuth(){
     var token = sessionStorage.getItem("authToken");
     if (token == null){
@@ -11,6 +11,10 @@ function getAuth(){
     }
 }
 
+function logout(){
+    sessionStorage.clear();
+    showAuthBlock();
+}
 function showAuthBlock(){
     $("#auth").css("display", "block");
     $("#user").css("display", "none");
@@ -46,8 +50,8 @@ function getUserByLogin(login){
         },
         success: function(response){
             console.log(response);
-            var user = `Id: ${response["id"]} Login: ${response["login"]} Role: ${response["role"]["name"]}`
-            $("#getUserBlock").text(user);
+            var user = `<tr><td>${response["id"]}</td> <td>${response["login"]}</td><td>${response["role"]["name"]}</td></tr>`
+            $("#getUserTable").html(user);
             $("#getUserBlock").css("display", "block");
         }
     });
@@ -66,9 +70,9 @@ function getUserAll(){
             var user = ""
             for(var i = 0; i<response.length; i++){
                 //console.log(users[i])
-                user += `Id: ${response[i].id} Login: ${response[i].login} Role: ${response[i].role.name}\n`
+                user += `<tr><td>${response[i].id}</td><td>${response[i].login}</td><td>${response[i].role.name}</td></tr>`
             }
-            $("#getUserAllBlock").text(user);
+            $("#getUserAllTable").html(user);
             $("#getUserAllBlock").css("display", "block");
         }
     });
@@ -87,16 +91,20 @@ function getUserByRole(role){
             var user = ""
             for(var i = 0; i<response.length; i++){
                 //console.log(users[i])
-                user += `Id: ${response[i].id} Login: ${response[i].login} Role: ${response[i].role.name}\n`
+                user += `<tr><td>${response[i].id}</td><td>${response[i].login}</td><td>${response[i].role.name}</td></tr>`
             }
-            $("#getUserByRoleBlock").text(user);
+            $("#getUserByRoleTableBody").html(user);
             $("#getUserByRoleBlock").css("display", "block");
+            $("#getUserByRoleTable").css("display", "");
+            $("#getUserByRoleError").css("display", "none");
         },
         error: function(xhr, status, error){
             var errorMessage = xhr.status + ': ' + xhr.statusText
             console.log(errorMessage);
             $("#getUserByRoleBlock").css("display", "block");
-            $("#getUserByRoleBlock").text("Не достаточно прав");
+            $("#getUserByRoleTable").css("display", "none");
+            $("#getUserByRoleError").css("display", "block");
+            $("#getUserByRoleError").html("Не достаточно прав");
 
         }
     });
@@ -112,15 +120,19 @@ function getUserById(id){
         },
         success: function(response){
             console.log(response);
-            var user = `Id: ${response["id"]} Login: ${response["login"]} Role: ${response["role"]["name"]}`
-            $("#getUserByIdBlock").text(user);
+            var user = `<tr><td>${response["id"]}</td> <td>${response["login"]}</td><td>${response["role"]["name"]}</td></tr>`
+            $("#getUserByIdTableBody").html(user);
+            $("#getUserByIdTable").css("display", "");
             $("#getUserByIdBlock").css("display", "block");
+            $("#getUserByIdError").css("display", "none");
         },
         error: function(xhr, status, error){
             var errorMessage = xhr.status + ': ' + xhr.statusText
             console.log(errorMessage);
             $("#getUserByIdBlock").css("display", "block");
-            $("#getUserByIdBlock").text("Не достаточно прав");
+            $("#getUserByIdError").css("display", "block");
+            $("#getUserByIdTable").css("display", "none");
+            $("#getUserByIdError").html("Не достаточно прав");
 
         }
     });
@@ -142,15 +154,19 @@ function saveUser(login, password){
         },
         success: function(response){
             console.log(response);
-            var user = `Id: ${response["id"]} Login: ${response["login"]} Role: ${response["role"]["name"]}`
-            $("#newUserBlock").text(user);
+            var user = `<tr><td>${response["id"]}</td> <td>${response["login"]}</td><td>${response["role"]["name"]}</td></tr>`
+            $("#newUserTableBody").html(user);
             $("#newUserBlock").css("display", "block");
+            $("#newUserTable").css("display", "");
+            $("#newUserError").css("display", "none");
         },
         error: function(xhr, status, error){
             var errorMessage = xhr.status + ': ' + xhr.statusText
             console.log(errorMessage);
             $("#newUserBlock").css("display", "block");
-            $("#newUserBlock").text("Пользователь с таким логином существует");
+            $("#newUserError").css("display", "block");
+            $("#newUserTable").css("display", "none");
+            $("#newUserError").html("Пользователь с таким логином существует");
 
         }
     });

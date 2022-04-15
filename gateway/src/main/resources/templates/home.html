@@ -41,10 +41,10 @@
         <div class="wrap-login100 p-t-85 p-b-20">
             <form class="login100-form validate-form">
 					<span class="login100-form-title p-b-70">
-						Welcome
+						<b>Добро пожаловать!</b>
 					</span>
                 <span class="login100-form-avatar">
-						<img src="images/avatar-01.jpg" alt="AVATAR">
+						<img src="images/profile.png" alt="AVATAR">
 					</span>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
@@ -58,20 +58,18 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" type="submit" onclick="on_auth_click($('#floatingInput').val(), $('#floatingPassword').val())">
+                    <a class="login100-form-btn" onclick="on_auth_click($('#floatingInput').val(), $('#floatingPassword').val())">
                         Войти
-                    </button>
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
-<div id="dropDownSelect1"></div>
-
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <div id="user" style="display: none">
+<div id="user" style="display: none">
+    <image style="position: absolute; right: 0; height: 4vh;" src = "images/icons/logout.png" onclick="logout()" ></image>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <section class="py-5 text-center container">
             <div class="text-muted py-5 px-3 py-2 bg-dark text-white text-center">>
                 <div class="card mb-4 rounded-3 shadow-sm">
@@ -80,11 +78,21 @@
                         <div class="col-lg-6 col-md-8 mx-auto">
                             <form>
                                 <h3>2.1 Получить пользователя по логину</h3>
-                                <label for="userLogin"><b></h4>Login</b></h4></label><input type="text" id="userLogin">
+                                <label for="userLogin"><b></h4>Login: </b></h4></label><input type="text" id="userLogin">
                                 <a onclick="getUserByLogin($('#userLogin').val())"><b></h4>Получить</b></h4></a>
                                 <div class="bg-light border rounded-3">
                                     <div id="getUserBlock" style="display: none;">
-
+                                        <table >
+                                            <thead>
+                                            <tr>
+                                                <th colspan="1"><b>Id</b></th>
+                                                <th colspan="1"><b>Login</b></th>
+                                                <th colspan="1"><b>Role</b></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="getUserTable">
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </form>
@@ -94,7 +102,17 @@
                                 <a onclick="getUserAll()"><b></h4>Получить</b></h4></a>
                                 <div class="bg-light border rounded-3">
                                     <div id="getUserAllBlock" style="display: none;">
-
+                                            <table >
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="1"><b>Id</b></th>
+                                                    <th colspan="1"><b>Login</b></th>
+                                                    <th colspan="1"><b>Role</b></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="getUserAllTable">
+                                                </tbody>
+                                            </table>
                                     </div>
                                 </div>
                             </form>
@@ -113,37 +131,70 @@
                     <div class="col-lg-6 col-md-8 mx-auto">
                         <form>
                             <h3>2.3 Получить всех пользователей по определенной роли</h3>
-                            <label for="userRole"><b></h4>Role</b></h4></label><input type="text" id="userRole">
+                            <label for="userRole"><b></h4>Role: </b></h4></label><input type="text" id="userRole">
                             <a onclick="getUserByRole($('#userRole').val())"><b></h4>Получить</b></h4></a>
                             <div class="bg-light border rounded-3">
                                 <div id="getUserByRoleBlock" style="display: none;">
-
+                                    <table id = "getUserByRoleTable" style="display: none" >
+                                        <thead>
+                                        <tr>
+                                            <th colspan="1"><b>Id</b></th>
+                                            <th colspan="1"><b>Login</b></th>
+                                            <th colspan="1"><b>Role</b></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="getUserByRoleTableBody">
+                                        </tbody>
+                                    </table>
+                                    <div id = "getUserByRoleError" style="display: none"></div>
                                 </div>
                             </div>
                         </form>
                         <br>
                         <form>
-                            <h3>2.4 Получить всех пользователей по Id</h3>
-                            <label for="userId"><b></h4>Id</b></h4></label><input type="text" id="userId">
+                            <h3>2.4 Получить пользователя по Id</h3>
+                            <label for="userId"><b></h4>Id: </b></h4></label><input type="text" id="userId">
                             <a onclick="getUserById($('#userId').val())"><b></h4>Получить</b></h4></a>
                             <div class="bg-light border rounded-3">
                             </div>
                             <div id="getUserByIdBlock" style="display: none;">
-
+                                <table id = "getUserByIdTable" style="display: none" >
+                                    <thead>
+                                    <tr>
+                                        <th colspan="1"><b>Id</b></th>
+                                        <th colspan="1"><b>Login</b></th>
+                                        <th colspan="1"><b>Role</b></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="getUserByIdTableBody">
+                                    </tbody>
+                                </table>
+                                <div id = "getUserByIdError" style="display: none"></div>
                             </div>
                         </form>
                         <br>
                         <form>
                             <h3>2.5 Создать пользователя</h3>
-                            <label for="newUserLogin"><b></h4>Login</b></h4></label><input type="text"
+                            <label for="newUserLogin"><b></h4>Login: </b></h4></label><input type="text"
                                                                                            id="newUserLogin">
-                            <label for="newUserPass"><b></h4>Password</b></h4></label><input type="text"
+                            <label for="newUserPass"><b></h4>Password: </b></h4></label><input type="text"
                                                                                              id="newUserPass">
                             <a onclick="saveUser($('#newUserLogin').val(), $('#newUserPass').val())"><b></h4>
                                 Создать</b></h4></a>
                             <div class="bg-light border rounded-3">
                                 <div id="newUserBlock" style="display: none;">
-
+                                    <table id = "newUserTable" style="display: none" >
+                                        <thead>
+                                        <tr>
+                                            <th colspan="1"><b>Id</b></th>
+                                            <th colspan="1"><b>Login</b></th>
+                                            <th colspan="1"><b>Role</b></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="newUserTableBody">
+                                        </tbody>
+                                    </table>
+                                    <div id = "newUserError" style="display: none"></div>
                                 </div>
                             </div>
                         </form>
